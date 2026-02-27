@@ -24,7 +24,17 @@ class HomeWork2:
     #     3   4
 
     def constructBinaryTree(self, input) -> TreeNode:
-        pass
+        operators = {'+', '-', '*', '/'}
+        stack = []
+        for token in input:
+            if token in operators:
+                right = stack.pop()
+                left = stack.pop()
+                node = TreeNode(token, left, right)
+                stack.append(node)
+            else:
+                stack.append(TreeNode(token))
+        return stack.pop()
 
 
 
