@@ -109,7 +109,31 @@ class Stack:
 
     def __init__(self):
         # TODO: initialize the stack
-        pass
+        self.data = []
+        self.top = -1
+
+    def push(self, val):
+        self.data.append(val)
+        self.top += 1
+
+    def pop(self):
+        if self.isEmpty():
+            raise IndexError("Stack is empty")
+        val = self.data[self.top]
+        self.data.pop()
+        self.top -= 1
+        return val
+
+    def peek(self):
+        if self.isEmpty():
+            raise IndexError("Stack is empty")
+        return self.data[self.top]
+
+    def isEmpty(self):
+        return self.top == -1
+
+    def size(self):
+        return self.top + 1
 
     # Problem 3: Write code to evaluate a postfix expression using stack and return the integer value
     # Use stack which you implemented above for this problem
@@ -124,9 +148,28 @@ class Stack:
 
     # DO NOT USE EVAL function for evaluating the expression
 
-    def evaluatePostfix(exp: str) -> int:
+    def evaluatePostfix(self, exp: str) -> int:
         # TODO: implement this using your Stack class
-        pass
+        operators = {'+', '-', '*', '/'}
+        tokens = exp.split()
+        for token in tokens:
+            if token in operators:
+                b = self.pop()
+                a = self.pop()
+                if token == '+':
+                    result = a + b
+                elif token == '-':
+                    result = a - b
+                elif token == '*':
+                    result = a * b
+                elif token == '/':
+                    if b == 0:
+                        raise ZeroDivisionError("Division by zero")
+                    result = int(a / b)
+                self.push(result)
+            else:
+                self.push(int(token))
+        return self.pop()
 
 
 # Main Function. Do not edit the code below
