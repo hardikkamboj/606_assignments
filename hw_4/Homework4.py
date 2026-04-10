@@ -24,7 +24,11 @@ class Homework4:
         return result
 
     def _quick_sort_helper(self, arr, low, high):
-        pass 
+        if lo >= hi:
+            return
+        split_pos = self._partition_random(seq, lo, hi)
+        self._quick_sort_helper(seq, lo, split_pos - 1)
+        self._quick_sort_helper(seq, split_pos + 1, hi)
 
     def _partition_random(self, arr, low, high):
         pass 
