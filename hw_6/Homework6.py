@@ -4,7 +4,31 @@ import ast  # For safely evaluating string representation of list
 class Homework6:
     #Question 1 Number of Islands
     def countIslandsUsingDFS(self, grid):
-        pass
+        if not grid or not grid[0]:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+        # Make a deep-ish copy so we don't mutate the caller's grid
+        # (the test harness reuses the same grid across all 3 methods).
+        g = [row[:] for row in grid]
+        count = 0
+
+        def dfs(r, c):
+            # Out of bounds or water/visited -> stop
+            if r < 0 or r >= rows or c < 0 or c >= cols or g[r][c] != '1':
+                return
+            g[r][c] = '0'  # mark visited by sinking the land
+            dfs(r + 1, c)
+            dfs(r - 1, c)
+            dfs(r, c + 1)
+            dfs(r, c - 1)
+
+        for r in range(rows):
+            for c in range(cols):
+                if g[r][c] == '1':
+                    count += 1
+                    dfs(r, c)
+        return count
 
     def countIslandsUsingBFS(self, grid):
         pass
