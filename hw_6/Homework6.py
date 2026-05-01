@@ -1,5 +1,6 @@
 import csv
 import ast  # For safely evaluating string representation of list
+from collections import deque
 
 class Homework6:
     #Question 1 Number of Islands
@@ -31,10 +32,52 @@ class Homework6:
         return count
 
     def countIslandsUsingBFS(self, grid):
-        pass
+        if not grid or not grid[0]:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+        g = [row[:] for row in grid]
+        count = 0
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        for r in range(rows):
+            for c in range(cols):
+                if g[r][c] == '1':
+                    count += 1
+                    queue = deque([(r, c)])
+                    g[r][c] = '0'  # mark visited when enqueueing
+                    while queue:
+                        cr, cc = queue.popleft()
+                        for dr, dc in directions:
+                            nr, nc = cr + dr, cc + dc
+                            if 0 <= nr < rows and 0 <= nc < cols and g[nr][nc] == '1':
+                                g[nr][nc] = '0'
+                                queue.append((nr, nc))
+        return count
 
     def countIslandsUsingDFSUsingStack(self, grid):
-        pass
+        if not grid or not grid[0]:
+            return 0
+
+        rows, cols = len(grid), len(grid[0])
+        g = [row[:] for row in grid]
+        count = 0
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        for r in range(rows):
+            for c in range(cols):
+                if g[r][c] == '1':
+                    count += 1
+                    stack = [(r, c)]
+                    g[r][c] = '0'  # mark visited when pushing
+                    while stack:
+                        cr, cc = stack.pop()
+                        for dr, dc in directions:
+                            nr, nc = cr + dr, cc + dc
+                            if 0 <= nr < rows and 0 <= nc < cols and g[nr][nc] == '1':
+                                g[nr][nc] = '0'
+                                stack.append((nr, nc))
+        return count
 
     def performanceAnalysis(): # optional
         pass
